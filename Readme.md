@@ -2,7 +2,7 @@
 
 A golang REST API that you can query passing a RSS Feed URI, in order to read your news.
 
-For now, it doesn't return JSON, it just returns text. I mainly use this app with curl, through a shel.
+For now, it doesn't return JSON, it just returns text. I mainly use this app with curl, through a shell.
 
 # How do I set it up
 
@@ -16,7 +16,7 @@ For now, it doesn't return JSON, it just returns text. I mainly use this app wit
 
 If you query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}` you should get the list of the articles, with articles' number.
 
-Then, query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` you will "open" an article, which means have access to its description + the URI link to read it in your Web Browser.
+Then, query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` to "open" an article, which means have access to its description as well as the URI link to read it in your Web Browser.
 
 # List of things that will be done 
 
@@ -24,3 +24,6 @@ Then, query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` you
 - Add a method so you can get JSON out of it `[in progress]`
 - Possibility to constitute a News Library
 
+# Why
+
+Just wanted to practice go.
