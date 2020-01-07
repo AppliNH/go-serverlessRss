@@ -16,7 +16,7 @@ For now, it doesn't return JSON, it just returns text. I mainly use this app wit
 
 If you query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}` you should get the list of the articles, with articles' number.
 
-Then, query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` to "open" an article, which means have access to its description as well as the URI link to read it in your Web Browser.
+Then, query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` to "open" an article, which means getting access to its description as well as the URI link to read it in your Web Browser.
 
 # List of things that will be done 
 
