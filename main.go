@@ -1,0 +1,119 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"net/url"
+	"strconv"
+	"strings"
+
+	"github.com/gorilla/mux"
+	"github.com/mmcdole/gofeed"
+)
+
+func Rewriter(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		//Simple URL rewriter. Rewrite if it's started with API path
+		pathReq := r.RequestURI
+
+		if strings.HasPrefix(pathReq, "/api/v1/rss/") { //&& strings.HasSuffix(pathReq,"/item/")
+			//Use url.QueryEscape for pre go1.8
+			pe := url.PathEscape(strings.TrimLeft(pathReq, "/api/v1/rss/"))
+			r.URL.Path = "/api/v1/rss/" + pe
+			r.URL.RawQuery = ""
+		}
+
+		h.ServeHTTP(w, r)
+	})
+}
+
+func get(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"message": "get called"}`))
+}
+
+func post(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(`{"message": "post called"}`))
+}
+
+func put(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusAccepted)
+	w.Write([]byte(`{"message": "put called"}`))
+}
+
+func delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"message": "delete called"}`))
+}
+
+func params(w http.ResponseWriter, r *http.Request) {
+	pathParams := mux.Vars(r)
+	w.Header().Set("Content-Type", "application/json")
+
+	userID := -1
+	var err error
+	if val, ok := pathParams["userID"]; ok {
+		userID, err = strconv.Atoi(val)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(`{"message": "need a number"}`))
+			return
+		}
+	}
+
+	commentID := -1
+	if val, ok := pathParams["commentID"]; ok {
+		commentID, err = strconv.Atoi(val)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(`{"message": "need a number"}`))
+			return
+		}
+	}
+
+	query := r.URL.Query()
+	location := query.Get("location")
+
+	w.Write([]byte(fmt.Sprintf(`{"userID": %d, "commentID": %d, "location": "%s" }`, userID, commentID, location)))
+}
+
+func rssArticles(w http.ResponseWriter, r *http.Request) {
+	pathParams := mux.Vars(r)
+	rssUri := pathParams["rss"]
+
+	rss, err := url.PathUnescape(rssUri)
+
+	fp := gofeed.NewParser()
+	feed, _ := fp.ParseURL(rss)
+	fmt.Println(err)
+
+	for i := 0; i < len(feed.Items); i++ {
+		articleTitle := feed.Items[i].Title
+		w.Write([]byte(fmt.Sprintf(`| %d --> %s |
+		 `, i, articleTitle)))
+
+	}
+}
+
+func main() {
+	r := mux.NewRouter()
+
+	api := r.PathPrefix("/api/v1").Subrouter()
+	api.SkipClean(true)
+	api.HandleFunc("/rss/{rss}", rssArticles)
+
+	api.HandleFunc("", get).Methods(http.MethodGet)
+	api.HandleFunc("", post).Methods(http.MethodPost)
+	api.HandleFunc("", put).Methods(http.MethodPut)
+	api.HandleFunc("", delete).Methods(http.MethodDelete)
+
+	api.HandleFunc("/user/{userID}/comment/{commentID}", params).Methods(http.MethodGet)
+
+	log.Fatal(http.ListenAndServe(":8082", Rewriter(r)))
+}
