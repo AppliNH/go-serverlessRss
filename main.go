@@ -14,12 +14,11 @@ import (
 
 func Rewriter(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//Simple URL rewriter. Rewrite if it's started with API path
+
 		pathReq := r.RequestURI
 
 		if strings.Contains(pathReq, `/item/`) {
 			if strings.HasPrefix(pathReq, "/api/v1/rss/") {
-				fmt.Println("two")
 
 				s1 := strings.TrimLeft(pathReq, "/api/v1/rss/")
 				i := strings.Index(s1, "/item/")
@@ -38,7 +37,7 @@ func Rewriter(h http.Handler) http.Handler {
 		}
 		if !strings.Contains(pathReq, `/item/`) {
 			if strings.HasPrefix(pathReq, "/api/v1/rss/") && !strings.HasSuffix(pathReq, "/item/") {
-				fmt.Println("many")
+
 				pe := url.PathEscape(strings.TrimLeft(pathReq, "/api/v1/rss/"))
 				r.URL.Path = "/api/v1/rss/" + pe
 				r.URL.RawQuery = ""
@@ -118,10 +117,17 @@ func rssArticles(w http.ResponseWriter, r *http.Request) {
 
 	for i := 0; i < len(feed.Items); i++ {
 		articleTitle := feed.Items[i].Title
-		w.Write([]byte(fmt.Sprintf(`| %d --> %s |
-		 `, i, articleTitle)))
+		w.Write([]byte(fmt.Sprintf(`
+		| %d --> %s |
+		
+		`, i, articleTitle)))
 
 	}
+	w.Write([]byte(fmt.Sprintf(`
+
+		Please query the same uri + /item/[articleNumber] to read an article
+
+		`)))
 }
 
 func rssArticle(w http.ResponseWriter, r *http.Request) {
@@ -140,11 +146,14 @@ func rssArticle(w http.ResponseWriter, r *http.Request) {
 
 	article := feed.Items[item]
 
-	w.Write([]byte(fmt.Sprintf(`| %s |
+	w.Write([]byte(fmt.Sprintf(`
+	| %s |
 	 
 	%s
 	
-	`, article.Title, article.Description)))
+	Read more at : %s
+	
+	`, article.Title, article.Description, article.Link)))
 
 }
 
