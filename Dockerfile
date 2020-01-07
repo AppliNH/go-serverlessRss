@@ -6,6 +6,8 @@ WORKDIR /app
 
 COPY ./go.mod .
 
+EXPOSE 8080
+
 RUN go mod download
 
 COPY . .
