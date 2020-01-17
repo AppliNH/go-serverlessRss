@@ -6,9 +6,14 @@ WORKDIR /app
 
 COPY ./go.mod .
 
-EXPOSE 8080
-
 RUN go mod download
 
 COPY . .
-CMD ["go", "run", "main.go"]
+
+# Build the Go app
+RUN go build -o go-serverlessRss .
+
+# Expose port 8080 to the outside world
+EXPOSE 8080
+
+CMD ["./go-serverlessRss"]

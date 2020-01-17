@@ -13,13 +13,6 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-type Articles struct {
-	Id    int    `json:"id"`
-	Title string `json:"title"`
-	Desc  string `json:"desc"`
-	Llink string `json:"link"`
-}
-
 func Rewriter(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
