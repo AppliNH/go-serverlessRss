@@ -22,7 +22,7 @@ Then, query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` to 
 
 ## In order to get the news in a JSON format
 
-If you query `localhost:8080/api/json/rss/{YOUR_RSS_URI}` you should get a JSON array the articles.
+If you query `localhost:8080/api/json/rss/{YOUR_RSS_URI}` you should get a JSON array of the articles.
 Each article contains the following properties : Id, Title, Description and Link.
 
 
