@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	. "go-serverlessRss/articles"
+	. "go-serverlessRss/newsfeed"
 	"log"
 	"net/http"
 	"net/url"
@@ -128,17 +130,15 @@ func rssArticle(w http.ResponseWriter, r *http.Request) {
 
 func rssArticlesJSON(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("rssArticlesJSON")
+	w.Header().Set("Content-Type", "application/json")
+	var newsfeed NewsFeed
+	_ = json.NewDecoder(r.Body).Decode(&newsfeed)
 
-	pathParams := mux.Vars(r)
-	rssUri := pathParams["rss"]
-
-	rss, err := url.PathUnescape(rssUri)
+	// rss, err := url.PathUnescape(rssUri)
 
 	fp := gofeed.NewParser()
-	feed, _ := fp.ParseURL(rss)
-	fmt.Println(err)
+	feed, _ := fp.ParseURL(newsfeed.Uri)
 
-	w.Header().Set("Content-Type", "application/json")
 	var listOfArticles []Articles
 
 	for i := 0; i < len(feed.Items); i++ {
@@ -162,7 +162,7 @@ func main() {
 	api.HandleFunc("/rss/{rss}/item/{item}", rssArticle)
 
 	apiJSON.SkipClean(true)
-	apiJSON.HandleFunc("/rss/{rss}", rssArticlesJSON)
+	apiJSON.HandleFunc("/rss", rssArticlesJSON).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), Rewriter(r)))
 }
