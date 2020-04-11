@@ -33,7 +33,8 @@ https://dry-tor-91544.herokuapp.com/api/json/rss/https://www.francetvinfo.fr/mon
 # List of things that will be done 
 
 - Deploy to Heroku `[done !]`
-- Add a method so you can get JSON out of it `[done]
+- Add a method so you can get JSON out of it `[done]`
+- Reorganize the code because it's a mess
 - Add a post method
 
 # Why
