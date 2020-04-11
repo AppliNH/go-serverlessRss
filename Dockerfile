@@ -13,7 +13,7 @@ COPY . .
 # Build the Go app
 RUN go build -o go-serverlessRss .
 
-# Expose port 8080 to the outside world
-EXPOSE 8080
+# Expose port 80 to the outside world
+# EXPOSE 8080
 
 CMD ["./go-serverlessRss"]

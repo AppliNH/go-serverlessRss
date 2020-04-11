@@ -9,7 +9,7 @@ For now, it doesn't return JSON, it just returns text. I mainly use this app wit
 - First, pull it
 - cd inside it
 - Run `docker build -t [name] .`
-- Run `docker run -d -p 8080:8080 [name]`
+- Run `docker run -d --env PORT=8080 -p 8080:8080 [name]`
 - There you go, it should run on your localhost:8080
 
 # How do I use it
@@ -25,12 +25,16 @@ Then, query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` to 
 If you query `localhost:8080/api/json/rss/{YOUR_RSS_URI}` you should get a JSON array of the articles.
 Each article contains the following properties : Id, Title, Description and Link.
 
+## Now deployed thanks to Heroku !
+
+You can use it here :
+https://dry-tor-91544.herokuapp.com/api/json/rss/https://www.francetvinfo.fr/monde.rss
 
 # List of things that will be done 
 
-- Deploy to Netlify `[in progress]`
-- Add a method so you can get JSON out of it `[done]`
-- Possibility to constitute a News Library
+- Deploy to Heroku `[done !]`
+- Add a method so you can get JSON out of it `[done]
+- Add a post method
 
 # Why
 

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 
@@ -163,5 +164,5 @@ func main() {
 	apiJSON.SkipClean(true)
 	apiJSON.HandleFunc("/rss/{rss}", rssArticlesJSON)
 
-	log.Fatal(http.ListenAndServe(":8080", Rewriter(r)))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), Rewriter(r)))
 }
