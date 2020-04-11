@@ -29,7 +29,7 @@ If you query `localhost:8080/api/json/rss` with the POST method, you can pass th
     "uri": "https://www.francetvinfo.fr/monde.rss"
 }
 ```
-so you get in return a JSON array of the articles.
+so you get in return the articles in a JSON array.
 Each article contains the following properties : 
 ```JSON
 {
