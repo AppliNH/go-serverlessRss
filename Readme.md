@@ -44,7 +44,7 @@ Each article contains the following properties :
 ## Now deployed thanks to Heroku !
 
 You can use it from here :
-https://dry-tor-91544.herokuapp.com
+https://go-rss.herokuapp.com
 
 # List of things that will be done 
 
