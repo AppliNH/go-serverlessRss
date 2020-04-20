@@ -6,7 +6,7 @@ For now, it doesn't return JSON, it just returns text. I mainly use this app wit
 
 # How do I set it up
 
-- First, pull it
+- First, clone it
 - cd inside it
 - Run `docker build -t [name] .`
 - Run `docker run -d --env PORT=8080 -p 8080:8080 [name]`
