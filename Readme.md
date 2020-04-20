@@ -2,7 +2,9 @@
 
 A golang REST API that you can query passing a RSS Feed URI, in order to read your news.
 
-For now, it doesn't return JSON, it just returns text. I mainly use this app with curl, through a shell.
+For now, it can return JSON but it also just returns text. 
+
+I mainly use this app with curl, through a shell.
 
 # How do I set it up
 
