@@ -18,9 +18,11 @@ I mainly use this app with curl, through a shell.
 
 ## In order to simply read the news from a curl
 
-If you query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}` you should get the list of the articles, with articles' number.
+If you query `localhost:8080/api/cli/rss/{YOUR_RSS_URI}` you should get the list of the articles, with articles' number.
 
-Then, query `localhost:8080/api/v1/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` to "open" an article, which means getting access to its description as well as the URI link to read it in your Web Browser.
+Then, query `localhost:8080/api/cli/rss/{YOUR_RSS_URI}/item/{ARTICLE_NUMBER}` to "open" an article, which means getting access to its description as well as the URI link to read it in your Web Browser.
+
+**Note:** `YOUR_RSS_URI` should **not** contain "https://" or "http://".
 
 ## In order to get the news in a JSON format
 
@@ -28,7 +30,7 @@ If you query `localhost:8080/api/json/rss` with the POST method, you can pass th
 ```JSON
 {
     "name": "FranceInfo",
-    "uri": "https://www.francetvinfo.fr/monde.rss"
+    "uri": "www.francetvinfo.fr/monde.rss"
 }
 ```
 so you get in return the articles in a JSON array.
@@ -52,7 +54,7 @@ https://go-rss.herokuapp.com
 
 - Deploy to Heroku `[done !]`
 - Add a method so you can get JSON out of it `[done]`
-- Reorganize the code because it's a mess
+- Reorganize the code because it's a mess `[quite done]`
 - Add a post method `[done !]`
 
 # Why
